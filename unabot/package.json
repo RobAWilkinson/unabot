@@ -19,6 +19,7 @@
   "homepage": "https://github.com/oddballteam/slack-bot-node#readme",
   "dependencies": {
     "@slack/bolt": "^2.4.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "mailparser": "^3.0.0"
   }
 }
