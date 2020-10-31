@@ -10,11 +10,10 @@ const web = new WebClient(token);
   let res = await web.users.list()
   // console.log('Message sent: ', res);
   Promise.all(
-    emails.map(async(email) => {
+    emails.map(async (email) => {
       const user = await web.users.lookupByEmail({
-          email
-        });
-        console.log(user)
+        email
+      });
+      console.log(user)
     }))
-
 })();
