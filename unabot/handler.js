@@ -10,3 +10,8 @@ module.exports.hello = async event => {
   let parsed = await simpleParser(content);
   console.log(parsed.text);
 };
+
+
+// look up the user in slack based on the name
+
+// send the message to that user in slack
