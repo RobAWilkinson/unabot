@@ -1,12 +1,19 @@
 require('dotenv').config()
-const { App } = require('@slack/bolt');
-const app = new App({
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  token: process.env.SLACK_BOT_TOKEN,
-});
-/* Add functionality here */
+const { WebClient } = require('@slack/web-api');
+const token = process.env.SLACK_BOT_TOKEN;
+
+const emails = [
+  "foo@bar.com"
+]
+const web = new WebClient(token);
 (async () => {
-  // Start the app
-  await app.start(process.env.PORT || 3000);
-  console.log(':zap:️ Bolt app is running!');
+  let res = await web.users.list()
+  // console.log('Message sent: ', res);
+  Promise.all(
+    emails.map(async (email) => {
+      const user = await web.users.lookupByEmail({
+        email
+      });
+      console.log(user)
+    }))
 })();
