@@ -8,10 +8,24 @@ module.exports.hello = async event => {
   const source = mail.source;
   const content = message.content
   let parsed = await simpleParser(content);
-  console.log(parsed.text);
+  // value: [
+  //   name: "",
+  //   address: ""
+  // ]
+  const ccAddresses = parsed.cc.value.map(element => element.address);
+  const toAddresses = parsed.to.value.map(element => element.address);
+  const offender = toAddresses.filter(address => address != "test@oddballunanet.com" && address != "greg.summer@oddball.io");
+  console.log(offender);
+  console.log(`To Addresses: ${toAddresses}`);
+  console.log(`CC Addresses: ${ccAddresses}`);
+  console.log(`Offender ${offender}`);
 };
 
 
 // look up the user in slack based on the name
+// takes an email body, does the splitting, and returns an array of users
+function parser() {
+
+}
 
 // send the message to that user in slack
