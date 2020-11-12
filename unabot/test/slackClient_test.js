@@ -14,7 +14,7 @@ describe('Lookup User', async () => {
         expect(users[0].user.name).to.eql("rob")
     });
 
-    xit('has a method to lookup 2 users by email', async () => {
+    it('has a method to lookup 2 users by email', async () => {
         const emails = [
             "rob@oddball.io",
             "dale.nelson@oddball.io"
@@ -24,7 +24,7 @@ describe('Lookup User', async () => {
         expect(users[0].user.name).to.eql("rob")
         expect(users[1].user.name).to.eql("dale.nelson")
     });
-    xit('sends a message to a specific user', async () => {
+    it('sends a message to a specific user', async () => {
         const message = `Please enter your hours\nhttps://oddball.unanet.biz/oddball/action/time/current`;
         const resp = await slackClient.messageUser(sampleUser, message);
         expect(resp.ok).to.be.true;
