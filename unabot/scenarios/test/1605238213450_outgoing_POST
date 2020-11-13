@@ -1,0 +1,36 @@
+POST /api/chat.postMessage HTTP/1.1
+accept: application/json, text/plain, */*
+user-agent: @slack:web-api/5.13.0 node/15.2.0 darwin/19.6.0
+content-type: application/x-www-form-urlencoded
+content-length: 198
+host: localhost:3000
+connection: close
+
+"token=xoxf-oK82TiP5Dz6jZesUlX9irKrRW73G9OtM8MYDjqL1Pmo38sPg7d&channel=U1ZEPGQ0P&text=Please+enter+your+hours%0Ahttps%3A%2F%2Foddball.unanet.biz%2Foddball%2Faction%2Ftime%2Fcurrent&as_user=true"
+
+-----
+
+HTTP/1.1 200 OK
+date: Fri, 13 Nov 2020 03:30:13 GMT
+server: Apache
+x-xss-protection: 0
+pragma: no-cache
+cache-control: private, no-cache, no-store, must-revalidate
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-slack-req-id: 11b0a7b2e592a5b5e6e6d95b5865be17
+x-content-type-options: nosniff
+referrer-policy: no-referrer
+access-control-expose-headers: x-slack-req-id, retry-after
+x-slack-backend: r
+x-oauth-scopes: channels:history,chat:write,emoji:read,users:read,incoming-webhook,users:read.email,chat:write.customize,users.profile:read
+x-accepted-oauth-scopes: chat:write
+expires: Mon, 26 Jul 1997 05:00:00 GMT
+vary: Accept-Encoding
+access-control-allow-headers: slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags
+connection: close
+transfer-encoding: chunked
+content-type: application/json; charset=utf-8
+x-via: haproxy-www-yo7l,haproxy-edge-iad-fapj
+
+"{\"ok\":true,\"channel\":\"D01EN7LQBRR\",\"ts\":\"1605238213.001000\",\"message\":{\"bot_id\":\"B01DK71AQ0J\",\"type\":\"message\",\"text\":\"Please enter your hours\\n<https:\\/\\/oddball.unanet.biz\\/oddball\\/action\\/time\\/current>\",\"user\":\"U01DKD490CT\",\"ts\":\"1605238213.001000\",\"team\":\"T1ZD0UBMZ\",\"bot_profile\":{\"id\":\"B01DK71AQ0J\",\"deleted\":false,\"name\":\"Oddball Node Bot\",\"updated\":1603935173,\"app_id\":\"A01DCETCSVC\",\"icons\":{\"image_36\":\"https:\\/\\/a.slack-edge.com\\/80588\\/img\\/plugins\\/app\\/bot_36.png\",\"image_48\":\"https:\\/\\/a.slack-edge.com\\/80588\\/img\\/plugins\\/app\\/bot_48.png\",\"image_72\":\"https:\\/\\/a.slack-edge.com\\/80588\\/img\\/plugins\\/app\\/service_72.png\"},\"team_id\":\"T1ZD0UBMZ\"}}}"

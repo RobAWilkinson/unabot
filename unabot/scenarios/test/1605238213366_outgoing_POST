@@ -1,0 +1,36 @@
+POST /api/users.lookupByEmail HTTP/1.1
+accept: application/json, text/plain, */*
+user-agent: @slack:web-api/5.13.0 node/15.2.0 darwin/19.6.0
+content-type: application/x-www-form-urlencoded
+content-length: 84
+host: localhost:3000
+connection: close
+
+"token=xoxf-oK82TiP5Dz6jZesUlX9irKrRW73G9OtM8MYDjqL1Pmo38sPg7d&email=rob%40oddball.io"
+
+-----
+
+HTTP/1.1 200 OK
+date: Fri, 13 Nov 2020 03:30:13 GMT
+server: Apache
+x-xss-protection: 0
+pragma: no-cache
+cache-control: private, no-cache, no-store, must-revalidate
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-slack-req-id: 56bd313ea1a8b039ae7156242c250bed
+x-content-type-options: nosniff
+referrer-policy: no-referrer
+access-control-expose-headers: x-slack-req-id, retry-after
+x-slack-backend: r
+x-oauth-scopes: channels:history,chat:write,emoji:read,users:read,incoming-webhook,users:read.email,chat:write.customize,users.profile:read
+x-accepted-oauth-scopes: users:read.email
+expires: Mon, 26 Jul 1997 05:00:00 GMT
+vary: Accept-Encoding
+access-control-allow-headers: slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags
+connection: close
+transfer-encoding: chunked
+content-type: application/json; charset=utf-8
+x-via: haproxy-www-49je,haproxy-edge-iad-m4ac
+
+"{\"ok\":true,\"user\":{\"id\":\"U1ZEPGQ0P\",\"team_id\":\"T1ZD0UBMZ\",\"name\":\"rob\",\"deleted\":false,\"color\":\"9f69e7\",\"real_name\":\"Rob Wilkinson\",\"tz\":\"America\\/New_York\",\"tz_label\":\"Eastern Standard Time\",\"tz_offset\":-18000,\"profile\":{\"title\":\"CTO\",\"phone\":\"(213) 944-3659\",\"skype\":\"\",\"real_name\":\"Rob Wilkinson\",\"real_name_normalized\":\"Rob Wilkinson\",\"display_name\":\"Rob\",\"display_name_normalized\":\"Rob\",\"fields\":null,\"status_text\":\"\",\"status_emoji\":\"\",\"status_expiration\":0,\"avatar_hash\":\"49b24bc7a3ab\",\"image_original\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_original.jpg\",\"is_custom_image\":true,\"email\":\"rob@oddball.io\",\"first_name\":\"Rob\",\"last_name\":\"Wilkinson\",\"image_24\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_24.jpg\",\"image_32\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_32.jpg\",\"image_48\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_48.jpg\",\"image_72\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_72.jpg\",\"image_192\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_192.jpg\",\"image_512\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_512.jpg\",\"image_1024\":\"https:\\/\\/avatars.slack-edge.com\\/2019-08-13\\/718518414897_49b24bc7a3ab4ea411db_1024.jpg\",\"status_text_canonical\":\"\",\"team\":\"T1ZD0UBMZ\"},\"is_admin\":true,\"is_owner\":true,\"is_primary_owner\":true,\"is_restricted\":false,\"is_ultra_restricted\":false,\"is_bot\":false,\"is_app_user\":false,\"updated\":1604109936}}"

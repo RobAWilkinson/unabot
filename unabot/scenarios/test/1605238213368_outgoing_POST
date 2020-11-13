@@ -1,0 +1,36 @@
+POST /api/users.lookupByEmail HTTP/1.1
+accept: application/json, text/plain, */*
+user-agent: @slack:web-api/5.13.0 node/15.2.0 darwin/19.6.0
+content-type: application/x-www-form-urlencoded
+content-length: 92
+host: localhost:3000
+connection: close
+
+"token=xoxf-oK82TiP5Dz6jZesUlX9irKrRW73G9OtM8MYDjqL1Pmo38sPg7d&email=dale.nelson%40oddball.io"
+
+-----
+
+HTTP/1.1 200 OK
+date: Fri, 13 Nov 2020 03:30:13 GMT
+server: Apache
+x-xss-protection: 0
+pragma: no-cache
+cache-control: private, no-cache, no-store, must-revalidate
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-slack-req-id: 5b60d7307ab6e0727f3bfe5bd62a40f9
+x-content-type-options: nosniff
+referrer-policy: no-referrer
+access-control-expose-headers: x-slack-req-id, retry-after
+x-slack-backend: r
+x-oauth-scopes: channels:history,chat:write,emoji:read,users:read,incoming-webhook,users:read.email,chat:write.customize,users.profile:read
+x-accepted-oauth-scopes: users:read.email
+expires: Mon, 26 Jul 1997 05:00:00 GMT
+vary: Accept-Encoding
+access-control-allow-headers: slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags
+connection: close
+transfer-encoding: chunked
+content-type: application/json; charset=utf-8
+x-via: haproxy-www-j9uy,haproxy-edge-iad-a30f
+
+"{\"ok\":true,\"user\":{\"id\":\"U012121CY8Z\",\"team_id\":\"T1ZD0UBMZ\",\"name\":\"dale.nelson\",\"deleted\":false,\"color\":\"e0a729\",\"real_name\":\"Dale Nelson\",\"tz\":\"America\\/New_York\",\"tz_label\":\"Eastern Standard Time\",\"tz_offset\":-18000,\"profile\":{\"title\":\"Program Manager\",\"phone\":\"\",\"skype\":\"\",\"real_name\":\"Dale Nelson\",\"real_name_normalized\":\"Dale Nelson\",\"display_name\":\"Dale\",\"display_name_normalized\":\"Dale\",\"fields\":null,\"status_text\":\"\",\"status_emoji\":\"\",\"status_expiration\":0,\"avatar_hash\":\"10c14abe156c\",\"image_original\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_original.jpg\",\"is_custom_image\":true,\"email\":\"dale.nelson@oddball.io\",\"first_name\":\"Dale\",\"last_name\":\"Nelson\",\"image_24\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_24.jpg\",\"image_32\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_32.jpg\",\"image_48\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_48.jpg\",\"image_72\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_72.jpg\",\"image_192\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_192.jpg\",\"image_512\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_512.jpg\",\"image_1024\":\"https:\\/\\/avatars.slack-edge.com\\/2020-04-14\\/1067792599540_10c14abe156cbbb5c107_1024.jpg\",\"status_text_canonical\":\"\",\"team\":\"T1ZD0UBMZ\"},\"is_admin\":false,\"is_owner\":false,\"is_primary_owner\":false,\"is_restricted\":false,\"is_ultra_restricted\":false,\"is_bot\":false,\"is_app_user\":false,\"updated\":1602593786}}"

@@ -26,6 +26,7 @@
     "chai": "^4.2.0",
     "mocha": "^8.2.0",
     "serverless-dotenv-plugin": "^3.1.0",
-    "steno": "^0.5.0"
+    "steno": "^0.5.0",
+    "superagent": "^6.1.0"
   }
 }
