@@ -1,5 +1,5 @@
 const user = {
-  id: 'U1ZEPGQ0P',
-}
+  id: "U1ZEPGQ0P",
+};
 
-module.exports = user
+module.exports = user;
