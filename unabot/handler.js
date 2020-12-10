@@ -2,6 +2,14 @@
 const slackClient = require("./slackClient");
 const simpleParser = require("mailparser").simpleParser;
 
+async function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function sleep(fn, ...args) {
+  await timeout(1000);
+  return fn(...args);
+}
+
 function parser(text) {
   const names = [];
   const lines = text.split("\n");
@@ -42,15 +50,30 @@ module.exports.hello = async event => {
       `There was an error finding users`
     );
   }
-  // const users = await slackClient.lookupByEmail(["rob@oddball.io", "greg.summer@oddball.io", "elena.stewart-james@oddball.io"])
   const str = matches.map(user => `<@${user.id}>`).join(" ");
+  // send a message to rob to test
+  // TODO: setup a way to throttle this and work through the array once a second
+  const responses = [];
+  for (let index = 0; index < matches.length; index++) {
+    const element = matches[index];
+    await sleep(async arg => {
+      const resp = await slackClient.messageUser(
+        {
+          id: "U1ZEPGQ0P",
+        },
+        createMessage(arg)
+      );
+      responses.push(resp);
+    }, element);
+  }
+  return JSON.stringify(responses);
+};
 
-  const resp = await slackClient.messageUser(
-    {
-      id: "U1ZEPGQ0P",
-    },
-    str
-  );
+const createMessage = user => {
+  return `
+  ${user.id} Please enter your timesheet for yesterday
+  https://oddball.unanet.biz/oddball/action/time/current
+  `;
 };
 
 // look up the user in slack based on the name
