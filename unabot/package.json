@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint-config-prettier": "^7.0.0",
     "mocha": "^8.2.0",
     "prettier": "^2.2.1",
     "serverless-dotenv-plugin": "^3.1.0",
