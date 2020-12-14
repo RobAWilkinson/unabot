@@ -2,7 +2,7 @@
 const slackClient = require("./slackClient");
 const simpleParser = require("mailparser").simpleParser;
 const AWS = require("aws-sdk"); // eslint-disable-line import/no-extraneous-dependencies
-const dynamoDb = new AWS.DynamoDB({apiVersion: '2012-08-10'}).DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 
 async function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -55,7 +55,7 @@ module.exports.hello = async event => {
   // loop
   for (let index = 0; index < matches.length; index++) {
     const element = matches[index];
-    const notified = await checkIfNotifiedToday(element);
+    const [notified, Item] = await checkIfNotifiedToday(element);
     console.log(`Notified Today?: ${notified}`);
     await sleep(async arg => {
       try {
@@ -66,7 +66,7 @@ module.exports.hello = async event => {
           createMessage(arg)
         );
         try {
-        const loggedUser = await logNotification(element);
+        const loggedUser = await logNotification(element, Item);
         console.log("saved Successfully");
         console.log(loggedUser)
         responses.push(resp);
@@ -101,24 +101,22 @@ async function checkIfNotifiedToday(user) {
   // see if the users in dynamodb,
   let params = {
     TableName: process.env.DYNAMODB_TABLE,
-    Key: {
-      email: user.profile.email,
-    },
+    Key: {"EMAIL": user.profile.email }
   };
   try {
     console.log("Checking in DB");
     console.log(params);
-    let result = await dynamoDb.getItem(params).promise()
+    let result = await docClient.get(params).promise();
     console.log("Checked for notification")
     console.log(result);
     if (result.Item) {
-      if (Object.keys(result.Item.days).indexOf(todayPretty) >= 0) {
+      if (result.Item.DAYS[todayPretty]) {
         // the day is in there
-        return true;
+        return [true, result.Item];
       }
-      return false;
+      return [false, result.Item];
     }
-    return false;
+    return [false, undefined];
 
     // if it is, check if the day is in there
     // if the day is in there, return true
@@ -136,17 +134,22 @@ async function checkIfNotifiedToday(user) {
 }
 
 // return result or throw error
-async function logNotification(user) {
+async function logNotification(user, Item) {
   // enter the notification
+  if(!Item) {
+    Item = {DAYS: {}};
+  }
   let today = new Date();
   let todayPretty = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const DAYS = {
+    ...Item.DAYS,
+    [todayPretty]: true
+  }
   let params = {
     TableName: process.env.DYNAMODB_TABLE,
     Item: {
-      email: {
-        [user.profile.email]: {
-          [todayPretty]: true,
-        },
+      email: user.profile.email,
+      DAYS: DAYS,
       },
     }
   };
@@ -154,7 +157,7 @@ async function logNotification(user) {
   try {
     console.log("Saving in DB");
     console.log(params);
-    const result = await dynamoDb.putItem(params).promise();
+    const result = await docClient.put(params).promise();
     console.log("Log notification");
     console.log(result)
     return result.Item;

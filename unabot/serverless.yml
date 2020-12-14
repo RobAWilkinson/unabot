@@ -28,7 +28,7 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: unabot-table
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -38,7 +38,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:unabot-table"
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
@@ -117,12 +117,12 @@ resources: # CloudFormation template syntax from here on.
       usersTable:
         Type: AWS::DynamoDB::Table
         Properties:
-          TableName: unabotTable
+          TableName: unabot-table
           AttributeDefinitions:
-            - AttributeName: email
+            - AttributeName: EMAIL
               AttributeType: S
           KeySchema:
-            - AttributeName: email
+            - AttributeName: EMAIL
               KeyType: HASH
           ProvisionedThroughput:
             ReadCapacityUnits: 1
