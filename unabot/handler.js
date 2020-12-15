@@ -2,7 +2,7 @@
 const slackClient = require("./slackClient");
 const simpleParser = require("mailparser").simpleParser;
 const AWS = require("aws-sdk"); // eslint-disable-line import/no-extraneous-dependencies
-const docClient = new AWS.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
+const docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
 
 async function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -57,20 +57,23 @@ module.exports.hello = async event => {
     const element = matches[index];
     const [notified, Item] = await checkIfNotifiedToday(element);
     console.log(`Notified Today?: ${notified}`);
+    if(notified) {
+      continue;
+    }
     await sleep(async arg => {
       try {
         const resp = await slackClient.messageUser(
           {
-            id: "U1ZEPGQ0P",
+            id: element.id
           },
           createMessage(arg)
         );
         try {
-        const loggedUser = await logNotification(element, Item);
-        console.log("saved Successfully");
-        console.log(loggedUser)
-        responses.push(resp);
-        } catch(error) {
+          const loggedUser = await logNotification(element, Item);
+          console.log("saved Successfully");
+          console.log(loggedUser);
+          responses.push(resp);
+        } catch (error) {
           console.error(error);
           throw new Error({
             statusCode: error.statusCode || 501,
@@ -78,7 +81,7 @@ module.exports.hello = async event => {
             body: "Couldn't log the user.",
           });
         }
-      }catch(error) {
+      } catch (error) {
         // handle the error in slack messaging
         console.error(error);
         throw new Error({
@@ -87,9 +90,9 @@ module.exports.hello = async event => {
           body: "Couldn't slack message the user.",
         });
       }
-
     }, element);
   } // end loop
+  console.log(responses);
   return JSON.stringify(responses);
 };
 
@@ -101,13 +104,13 @@ async function checkIfNotifiedToday(user) {
   // see if the users in dynamodb,
   let params = {
     TableName: process.env.DYNAMODB_TABLE,
-    Key: {"EMAIL": user.profile.email }
+    Key: { EMAIL: user.profile.email },
   };
   try {
     console.log("Checking in DB");
     console.log(params);
     let result = await docClient.get(params).promise();
-    console.log("Checked for notification")
+    console.log("Checked for notification");
     console.log(result);
     if (result.Item) {
       if (result.Item.DAYS[todayPretty]) {
@@ -136,22 +139,23 @@ async function checkIfNotifiedToday(user) {
 // return result or throw error
 async function logNotification(user, Item) {
   // enter the notification
-  if(!Item) {
-    Item = {DAYS: {}};
+  if (!Item) {
+    Item = { DAYS: {} };
   }
   let today = new Date();
-  let todayPretty = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  let todayPretty = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
   const DAYS = {
     ...Item.DAYS,
-    [todayPretty]: true
-  }
+    [todayPretty]: true,
+  };
   let params = {
     TableName: process.env.DYNAMODB_TABLE,
     Item: {
-      email: user.profile.email,
+      "EMAIL": user.profile.email,
       DAYS: DAYS,
-      },
-    }
+    },
   };
 
   try {
@@ -159,7 +163,7 @@ async function logNotification(user, Item) {
     console.log(params);
     const result = await docClient.put(params).promise();
     console.log("Log notification");
-    console.log(result)
+    console.log(result);
     return result.Item;
   } catch (error) {
     console.error(error);
@@ -173,7 +177,7 @@ async function logNotification(user, Item) {
 
 const createMessage = user => {
   return `
-  <@${user.id}> Please enter your timesheet for yesterday
+  <@${user.id}> Please update your timesheet
   https://oddball.unanet.biz/oddball/action/time/current
   `;
 };

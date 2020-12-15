@@ -38,7 +38,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:unabot-table"
+      Resource: "arn:aws:dynamodb:us-east-1:412204798376:table/unabot-table"
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
