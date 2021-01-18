@@ -179,7 +179,23 @@ const createMessage = user => {
   return `
   <@${user.id}> Please update your timesheet
   https://oddball.unanet.biz/oddball/action/time/current
+
+  ${randomMemeImageLink()}
   `;
+};
+
+const randomMemeImageLink = () => {
+  const memes = [
+    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet1.png',
+    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet2.png',
+    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet3.png',
+    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet4.png',
+    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet5.png',
+  ];
+
+  const rand = Math.floor(Math.random() * memes.length)
+
+  return memes[rand];
 };
 
 // look up the user in slack based on the name
