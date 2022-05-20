@@ -186,17 +186,15 @@ const createMessage = user => {
 
 const randomMemeImageLink = () => {
   const memes = [
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet1.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet2.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet3.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet4.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet5.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/Timesheet6.png',
-    'https://stranlabs.s3-us-west-1.amazonaws.com/timesheet/timesheet7.jpeg'
+    'https://unabot-bucket.s3.amazonaws.com/timesheet1.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet2.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet3.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet4.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet5.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet6.png',
+    'https://unabot-bucket.s3.amazonaws.com/timesheet7.png'
   ];
-
   const rand = Math.floor(Math.random() * memes.length)
-
   return memes[rand];
 };
 
