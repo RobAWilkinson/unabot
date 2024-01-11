@@ -3,6 +3,8 @@ const slackClient = require("./slackClient");
 const simpleParser = require("mailparser").simpleParser;
 const AWS = require("aws-sdk"); // eslint-disable-line import/no-extraneous-dependencies
 const docClient = new AWS.DynamoDB.DocumentClient({ apiVersion: "2012-08-10" });
+const log = require('lambda-log');
+
 
 async function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -33,7 +35,7 @@ function parser(text) {
   return names;
 }
 module.exports.hello = async event => {
-  console.log(JSON.stringify(event));
+  log.options.meta.event = event;
   const message = JSON.parse(event.Records[0].Sns.Message);
   const content = message.content;
   const parsed = await simpleParser(content);
@@ -55,8 +57,8 @@ module.exports.hello = async event => {
   // loop
   for (let index = 0; index < matches.length; index++) {
     const element = matches[index];
-    const [notified, Item] = await checkIfNotifiedToday(element);
-    console.log(`Notified Today?: ${notified}`);
+    const [notified, Item] = await checkIfNotifiedToday(element, log );
+    log.info(`Notified Today?: ${notified}`);
     if(notified) {
       continue;
     }
@@ -69,9 +71,9 @@ module.exports.hello = async event => {
           createMessage(arg)
         );
         try {
-          const loggedUser = await logNotification(element, Item);
-          console.log("saved Successfully");
-          console.log(loggedUser);
+          const loggedUser = await logNotification(element, Item, log);
+          log.info("saved Successfully");
+          log.info(loggedUser);
           responses.push(resp);
         } catch (error) {
           console.error(error);
@@ -92,26 +94,20 @@ module.exports.hello = async event => {
       }
     }, element);
   } // end loop
-  console.log(responses);
+  log.info(responses);
   return JSON.stringify(responses);
 };
 
-async function checkIfNotifiedToday(user) {
+async function checkIfNotifiedToday(user, log) {
   let today = new Date();
-  let todayPretty = `${today.getFullYear()}-${
-    today.getMonth() + 1
-  }-${today.getDate()}`;
+  const todayPretty = today.toISOString().split('T')[0];
   // see if the users in dynamodb,
   let params = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: { EMAIL: user.profile.email },
   };
   try {
-    console.log("Checking in DB");
-    console.log(params);
     let result = await docClient.get(params).promise();
-    console.log("Checked for notification");
-    console.log(result);
     if (result.Item) {
       if (result.Item.DAYS[todayPretty]) {
         // the day is in there
@@ -127,7 +123,7 @@ async function checkIfNotifiedToday(user) {
     // do
   } catch (error) {
     // handle potential errors
-    console.error(error);
+    log.error(error);
     throw new Error({
       statusCode: error.statusCode || 501,
       headers: { "Content-Type": "text/plain" },
@@ -137,7 +133,7 @@ async function checkIfNotifiedToday(user) {
 }
 
 // return result or throw error
-async function logNotification(user, Item) {
+async function logNotification(user, Item, log) {
   // enter the notification
   if (!Item) {
     Item = { DAYS: {} };
@@ -159,14 +155,14 @@ async function logNotification(user, Item) {
   };
 
   try {
-    console.log("Saving in DB");
-    console.log(params);
+    log.info("Saving in DB");
+    log.info(params);
     const result = await docClient.put(params).promise();
-    console.log("Log notification");
-    console.log(result);
+    log.info("Log notification");
+    log.info(result);
     return result.Item;
   } catch (error) {
-    console.error(error);
+    log.error(error);
     throw new Error({
       statusCode: error.statusCode || 501,
       headers: { "Content-Type": "text/plain" },
@@ -200,7 +196,7 @@ const randomMemeImageLink = () => {
 
 // look up the user in slack based on the name
 // takes an email body, does the splitting, and returns an array of users
-// send the message to that user in slack
+// sends the message to that user in slack
 
 const stepId = `arn:aws:states:us-east-1:412204798376:stateMachine:UnabotStateMachine`;
 
